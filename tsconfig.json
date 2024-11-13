@@ -1,29 +1,30 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "resolveJsonModule": true,
+    "target": "esnext",
+    "module": "ESNext",
+    "lib": ["ES6", "DOM", "DOM.Iterable", "ScriptHost"],
     "jsx": "react-jsx",
+    "noEmit": false,
+    "isolatedModules": true,
     "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "moduleResolution": "node",
     "baseUrl": "./src",
-    "paths": {
-      "components": [
-        "./components/*"
-      ],
-      "redux": [
-        "./redux/*"
-      ],
-      "navigation": [
-        "./navigation/*"
-      ]
-    }
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "types": ["node", "jest"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
-  "include": [
-    "src/**/*"
-  ],
   "exclude": [
-    "node_modules"
+    "node_modules", "config", "tmp", ".git", "public"
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
   ]
 }

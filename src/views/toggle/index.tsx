@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 
 import AddTaskInput from 'components/toggle/AddTaskInput';
-import TasksList from 'components/toggle/TasksList.tsx';
+import TasksList from 'components/toggle/TasksList';
 
 import { remove, toggleDone } from 'redux/slices/event';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
