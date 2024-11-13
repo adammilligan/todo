@@ -8,9 +8,10 @@ import {
     Typography,
     Checkbox,
 } from "@mui/material";
-import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
-import {add, toggleDone} from "../../redux/slices/event.ts";
+import {useAppDispatch, useAppSelector} from 'redux/hooks';
+import {add, remove, toggleDone} from 'redux/slices/event';
 import {useState} from "react";
+import {Delete, ExpandMore} from "@mui/icons-material";
 
 const ViewsToggle = () => {
     const state = useAppSelector(state => state.events);
@@ -24,6 +25,10 @@ const ViewsToggle = () => {
         }
     }
 
+    const deleteEventHandler = (id: string) => {
+        dispatch(remove(id));
+    }
+
     const toggleTaskCompletion = (id: string) => {
         dispatch(toggleDone(id));
     }
@@ -31,7 +36,7 @@ const ViewsToggle = () => {
     return (
         <Box display="flex" flexDirection="column" sx={{height: '100vh', justifyContent: 'flex-start'}}>
             <Typography variant='h2' color='primary'>Список задач</Typography>
-            <Box display="flex" alignItems="center" sx={{alignItems: "start", m: 2}}>
+            <Box display="flex" alignItems="center" sx={{alignItems: "start", marginBottom: 2}}>
                 <TextField
                     variant="outlined"
                     value={inputValue}
@@ -56,13 +61,13 @@ const ViewsToggle = () => {
                 </Button>
             </Box>
             <Accordion sx={{marginBottom: '20px', borderRadius: '8px'}}>
-                <AccordionSummary>
+                <AccordionSummary expandIcon={<ExpandMore/>}>
                     <Typography variant='subtitle1'>Все задачи</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Box display="flex" flexDirection="column">
-                        {state.data.sort().map((task) => (
-                            <Box sx={{ cursor: 'pointer' }}
+                        {state.data.map((task) => (
+                            <Box sx={{cursor: 'pointer'}}
                                  key={task.id}
                                  display="flex"
                                  alignItems="center"
@@ -81,12 +86,13 @@ const ViewsToggle = () => {
                 </AccordionDetails>
             </Accordion>
             <Accordion sx={{marginBottom: '20px', borderRadius: '8px'}}>
-                <AccordionSummary>
+                <AccordionSummary expandIcon={<ExpandMore/>}>
                     <Typography variant='subtitle1'>Невыполненные задачи</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     {state.data.filter(task => !task.isDone).map((task) => (
-                        <Box key={task.id} display="flex" alignItems="center">
+                        <Box key={task.id} sx={{cursor: 'pointer'}} display="flex" alignItems="center"
+                             onClick={() => toggleTaskCompletion(task.id)}>
                             <Checkbox
                                 checked={task.isDone}
                             />
@@ -96,24 +102,33 @@ const ViewsToggle = () => {
                                 {task.description}
                             </Typography>
                         </Box>
+
                     ))}
                 </AccordionDetails>
             </Accordion>
             <Accordion sx={{marginBottom: '20px', borderRadius: '8px'}}>
-                <AccordionSummary>
+                <AccordionSummary expandIcon={<ExpandMore/>}>
                     <Typography variant='subtitle1'>Выполненные задачи</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     {state.data.filter(task => task.isDone).map((task) => (
-                        <Box key={task.id} display="flex" alignItems="center">
-                            <Checkbox
-                                checked={task.isDone}
-                            />
-                            <Typography
-                                sx={{textDecoration: task.isDone ? 'line-through' : 'none'}}
-                            >
-                                {task.description}
-                            </Typography>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center'}} key={task.id}>
+                            <Box sx={{cursor: 'pointer'}} display="flex" alignItems="center"
+                                 onClick={() => toggleTaskCompletion(task.id)}>
+                                <Checkbox
+                                    checked={task.isDone}
+                                />
+                                <Typography
+                                    sx={{textDecoration: task.isDone ? 'line-through' : 'none'}}
+                                >
+                                    {task.description}
+                                </Typography>
+                            </Box>
+                            <Delete color='error'
+                                    sx={{cursor: 'pointer'}}
+                                onClick={() => deleteEventHandler(task.id)}>
+                                Удалить
+                            </Delete>
                         </Box>
                     ))}
                 </AccordionDetails>

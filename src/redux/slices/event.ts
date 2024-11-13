@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { v4 as uuidv4 } from 'uuid';
-import { IEvent } from "../../types/models/event.ts";
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {v4 as uuidv4} from 'uuid';
+import {IEvent} from 'types/models/event';
 
 export interface IEventState {
     data: IEvent[];
@@ -27,10 +27,13 @@ export const userSlice = createSlice({
             if (event) {
                 event.isDone = !event.isDone;
             }
+        },
+        remove: (state, action: PayloadAction<string>) => {
+            state.data = state.data.filter(event => event.id !== action.payload);
         }
     }
 });
 
-export const { add, toggleDone } = userSlice.actions;
+export const {add, toggleDone, remove} = userSlice.actions;
 
 export default userSlice.reducer;

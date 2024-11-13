@@ -1,7 +1,7 @@
 import {createBrowserRouter, Navigate, RouteObject} from 'react-router-dom';
 import {lazy, Suspense} from 'react';
 
-import {PageLayout} from "../components/helpers/pageLayout";
+import {PageLayout} from 'components/helpers/pageLayout';
 
 const Toggle = lazy(() => import('./../views/toggle'))
 
